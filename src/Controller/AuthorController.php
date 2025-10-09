@@ -89,7 +89,6 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         $auth = $AuthorRepo->find($id);
         $em->getManager()->remove($auth);
         $em->getManager()->flush();
-        //return(new Response("deleted successfully"));
         return $this->redirectToRoute('get_authors');
     }
 
