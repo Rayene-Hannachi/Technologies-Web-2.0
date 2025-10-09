@@ -5,6 +5,9 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Repository\AuthorRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Author;
 
 final class AuthorController extends AbstractController
 {
@@ -53,6 +56,41 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
     return $this->render('author/showAuthor.html.twig', [
         'author' => $author,
     ]);
+    }
+    #[Route('/get', name: 'get_authors')]
+    public function getAll(AuthorRepository $authorRepo): Response
+    {
+        $authors = $authorRepo->findAll();
+        
+    return $this->render('author/showauthors.html.twig', [
+        'authors' => $authors,
+    ]);
+    }
+    #[Route('/add', name: 'add_authors')]
+    public function addAuthor(ManagerRegistry $em): Response
+    {
+        $author1 = new Author();
+        $author1->setUsername('author1');
+        $author1->setEmail('author1@gmail.com');
+
+        $author2 = new Author();
+        $author2->setUsername('author2');
+        $author2->setEmail('author2@gmail.com');
+        
+        $em->getManager()->persist($author1);
+        $em->getManager()->persist($author2);
+        $em->getManager()->flush();
+        return  new Response("added successfully ");
+
+    }
+    #[Route('/delete/{id}', name: 'app_delete')]
+    public function DeleteAuthor(ManagerRegistry $em,AuthorRepository $AuthorRepo,$id): Response
+    {
+        $auth = $AuthorRepo->find($id);
+        $em->getManager()->remove($auth);
+        $em->getManager()->flush();
+        //return(new Response("deleted successfully"));
+        return $this->redirectToRoute('get_authors');
     }
 
 
