@@ -91,7 +91,16 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         $em->getManager()->flush();
         return $this->redirectToRoute('get_authors');
     }
-
+        #[Route('/update/{id}', name: 'app_update')]
+    public function UpdateAuthor(ManagerRegistry $em,AuthorRepository $AuthorRepo,$id): Response
+    {
+        $auth = $AuthorRepo->find($id);
+        $auth->setUsername('updated name');
+        $auth->setEmail('updated email');
+        $em->getManager()->persist($auth);
+        $em->getManager()->flush();
+        return $this->redirectToRoute('get_authors');
+    }
 
 
 }

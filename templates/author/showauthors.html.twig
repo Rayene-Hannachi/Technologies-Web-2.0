@@ -24,7 +24,8 @@
                 <td>{{ author.id }}</td>
                 <td>{{ author.username|upper }}</td>
                 <td>{{ author.email }}</td>
-                <td><a href="{{ path('app_delete',{'id':author.id}) }}">Delete</a></td>
+                <td><a href="{{ path('app_delete',{'id':author.id}) }}">Delete</a>
+                <a href="{{ path('app_update',{'id':author.id}) }}">Update</a></td>
             </tr>
         {% else %}
                 <tr>
