@@ -22,8 +22,8 @@ class Book
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $publicationDate = null;
 
-    #[ORM\Column]
-    private ?bool $enabled = null;
+    #[ORM\Column(options: ["default" => true])]
+    private bool $enabled = true;
 
     #[ORM\ManyToOne(inversedBy: 'Books')]
     #[ORM\JoinColumn(nullable: false)]
@@ -69,12 +69,12 @@ class Book
         return $this;
     }
 
-    public function isEnabled(): ?bool
+    public function isenabled(): ?bool
     {
         return $this->enabled;
     }
 
-    public function setEnabled(bool $enabled): static
+    public function setenabled(bool $enabled): static
     {
         $this->enabled = $enabled;
 

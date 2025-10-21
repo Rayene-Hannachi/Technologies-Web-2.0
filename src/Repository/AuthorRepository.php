@@ -15,7 +15,21 @@ class AuthorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Author::class);
     }
-
+    //dql
+    public function getAuthorsOrderedByNameDQL()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT a FROM App\Entity\Author a ORDER BY a.username ASC");
+        return $query->getResult();
+    }
+    //qb
+    public function getAuthorsOrderedByNameQB()
+    {
+        $reqQueryBuilder = $this->createQueryBuilder('a')
+                                ->orderBy('a.username', 'ASC');
+        $query = $reqQueryBuilder->getQuery();
+        return $query->getResult();
+    }
     //    /**
     //     * @return Author[] Returns an array of Author objects
     //     */

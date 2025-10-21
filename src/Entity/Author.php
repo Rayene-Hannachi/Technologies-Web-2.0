@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AuthorRepository::class)]
@@ -26,6 +27,9 @@ class Author
      */
     #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author', orphanRemoval: true)]
     private Collection $Books;
+
+    #[ORM\Column(type: 'integer', options: ["default" => 0])]
+    private int $nb_books = 0;
 
     public function __construct()
     {
@@ -87,6 +91,18 @@ class Author
                 $book->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getnb_Books(): ?int
+    {
+        return $this->nb_books;
+    }
+
+    public function setnb_Books(int $nb_books): static
+    {
+        $this->nb_books = $nb_books;
 
         return $this;
     }

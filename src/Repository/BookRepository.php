@@ -16,6 +16,24 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    //dql
+    public function getNbrBooksDQL()
+    {
+        $em = $this->getEntityManager();
+        $query = $em->createQuery("SELECT COUNT(b) FROM App\Entity\Book b");
+        return $query->getSingleScalarResult();
+    }
+
+    //qb
+    public function getNbrBooksQB()
+    {
+        $reqQueryBuilder = $this->createQueryBuilder('b')
+                                ->select('COUNT(b.id)');
+        $query = $reqQueryBuilder->getQuery();
+        return $query->getSingleScalarResult();
+    }
+    
+
     //    /**
     //     * @return Book[] Returns an array of Book objects
     //     */

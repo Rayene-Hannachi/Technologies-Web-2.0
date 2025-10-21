@@ -15,6 +15,7 @@
             <th>id</th>
             <th>username</th>
             <th>email</th>
+            <th>nb_books</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -24,6 +25,7 @@
                 <td>{{ author.id }}</td>
                 <td>{{ author.username|upper }}</td>
                 <td>{{ author.email }}</td>
+                <td>{{ author.nb_books }}</td>
                 <td><a href="{{ path('app_delete',{'id':author.id}) }}">Delete</a>
                 <a href="{{ path('app_update',{'id':author.id}) }}">Update</a></td>
             </tr>

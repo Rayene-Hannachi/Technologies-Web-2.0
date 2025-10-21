@@ -7,7 +7,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\AuthorRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Form\AuthorType;
 use App\Entity\Author;
+use Symfony\Component\HttpFoundation\Request;
 
 final class AuthorController extends AbstractController
 {
@@ -57,7 +59,7 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         'author' => $author,
     ]);
     }
-    #[Route('/get', name: 'get_authors')]
+    #[Route('/getA', name: 'get_authors')]
     public function getAll(AuthorRepository $authorRepo): Response
     {
         $authors = $authorRepo->findAll();
@@ -66,24 +68,22 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         'authors' => $authors,
     ]);
     }
-    #[Route('/add', name: 'add_authors')]
-    public function addAuthor(ManagerRegistry $em): Response
+    #[Route('/addA', name: 'add_authors')]
+    public function addAuthor(ManagerRegistry $em, Request $request): Response
     {
         $author1 = new Author();
-        $author1->setUsername('author1');
-        $author1->setEmail('author1@gmail.com');
-
-        $author2 = new Author();
-        $author2->setUsername('author2');
-        $author2->setEmail('author2@gmail.com');
-        
-        $em->getManager()->persist($author1);
-        $em->getManager()->persist($author2);
-        $em->getManager()->flush();
-        return  new Response("added successfully ");
-
+        $form = $this->createForm(AuthorType::class, $author1);
+        $form->handleRequest($request);
+        if ($form->isSubmitted()) {
+            $em->getManager()->persist($author1);
+            $em->getManager()->flush();
+            return $this->redirectToRoute('get_authors');
+        }
+        return $this->render('author/add.html.twig', [
+            'f' => $form->createView(),
+        ]);
     }
-    #[Route('/delete/{id}', name: 'app_delete')]
+    #[Route('/deleteA/{id}', name: 'app_delete')]
     public function DeleteAuthor(ManagerRegistry $em,AuthorRepository $AuthorRepo,$id): Response
     {
         $auth = $AuthorRepo->find($id);
@@ -91,7 +91,7 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         $em->getManager()->flush();
         return $this->redirectToRoute('get_authors');
     }
-    #[Route('/update/{id}', name: 'app_update')]
+    #[Route('/updateA/{id}', name: 'app_update')]
     public function UpdateAuthor(ManagerRegistry $em,AuthorRepository $AuthorRepo,$id): Response
     {
         $auth = $AuthorRepo->find($id);

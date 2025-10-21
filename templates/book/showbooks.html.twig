@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+<table border="1">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>publicationDate</th>
+            <th>published</th>
+            <th>author</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.id }}</td>
+                <td>{{ book.title|upper }}</td>
+                <td>{{ book.publicationDate|date('Y-m-d') }}</td>
+                <td>{{ book.enabled ? 'Yes' : 'No' }}</td>
+                <td>{{ book.author.username }}</td>
+                <td><a href="{{ path('app_delete',{'id':book.id}) }}">Delete</a>
+                <a href="{{ path('app_update',{'id':book.id}) }}">Update</a>
+                <a href="{{ path('app_details',{'id':book.id}) }}">Show</a></td>
+            </tr>
+        {% else %}
+                <tr>
+                    <td colspan="5">No books found</td>
+                </tr>
+        {% endfor %}
+    </tbody>
+</table>
+   Number of published books : {{ books|filter(book => book.enabled)|length }}
+   <br>
+   Number of unpublished books : {{ books|filter(book => not book.enabled)|length }}
+</div>
+{% endblock %}
