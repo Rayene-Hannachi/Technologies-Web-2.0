@@ -23,10 +23,9 @@ final class BookController extends AbstractController
             'controller_name' => 'BookController',
         ]);
     }
-        #[Route('/addB', name: 'add_books')]
-
+        #[Route('/addB', name: 'add_book')]
     public function addBook(ManagerRegistry $em, Request $request, AuthorRepository $authorRepo): Response
-{
+    {
     $book = new Book();
     $form = $this->createForm(BookType::class, $book);
     $form->handleRequest($request);
@@ -45,13 +44,13 @@ final class BookController extends AbstractController
         }
 
         return $this->redirectToRoute('get_books');
-    }
+        }
 
     return $this->render('book/add.html.twig', [
         'f' => $form->createView(),
     ]);
 } 
-#[Route('/updateB/{id}', name: 'app_update')]
+#[Route('/updateB/{id}', name: 'update_book')]
 public function updateBook(int $id, ManagerRegistry $em, Request $request, AuthorRepository $authorRepo): Response
 {
     $entityManager = $em->getManager();
@@ -91,7 +90,7 @@ public function updateBook(int $id, ManagerRegistry $em, Request $request, Autho
             'books' => $books,
         ]);
     }
-    #[Route('/show/{id}', name: 'app_details')]
+    #[Route('/show/{id}', name: 'show_book')]
     public function getOne(BookRepository $bookRepo, int $id): Response
     {
         $book = $bookRepo->find($id);
@@ -104,7 +103,7 @@ public function updateBook(int $id, ManagerRegistry $em, Request $request, Autho
             'book' => $book,
         ]);
     }
-    #[Route('/deleteB/{id}', name: 'app_delete')]
+    #[Route('/deleteB/{id}', name: 'delete_book')]
     public function DeleteBook(ManagerRegistry $em, BookRepository $bookRepo, AuthorRepository $AuthorRepo,$id): Response
     {
         $book = $bookRepo->find($id);

@@ -83,7 +83,7 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
             'f' => $form->createView(),
         ]);
     }
-    #[Route('/deleteA/{id}', name: 'app_delete')]
+    #[Route('/deleteA/{id}', name: 'delete_author')]
     public function DeleteAuthor(ManagerRegistry $em,AuthorRepository $AuthorRepo,$id): Response
     {
         $auth = $AuthorRepo->find($id);
@@ -91,7 +91,7 @@ array('id' => 3, 'picture' => '/images/Taha_Hussein.jpg','username' => 'Taha Hus
         $em->getManager()->flush();
         return $this->redirectToRoute('get_authors');
     }
-    #[Route('/updateA/{id}', name: 'app_update')]
+    #[Route('/updateA/{id}', name: 'update_author')]
     public function UpdateAuthor(ManagerRegistry $em,AuthorRepository $AuthorRepo,$id): Response
     {
         $auth = $AuthorRepo->find($id);

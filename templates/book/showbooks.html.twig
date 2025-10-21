@@ -28,9 +28,9 @@
                 <td>{{ book.publicationDate|date('Y-m-d') }}</td>
                 <td>{{ book.enabled ? 'Yes' : 'No' }}</td>
                 <td>{{ book.author.username }}</td>
-                <td><a href="{{ path('app_delete',{'id':book.id}) }}">Delete</a>
-                <a href="{{ path('app_update',{'id':book.id}) }}">Update</a>
-                <a href="{{ path('app_details',{'id':book.id}) }}">Show</a></td>
+                <td><a href="{{ path('delete_book',{'id':book.id}) }}">Delete</a>
+                <a href="{{ path('update_book',{'id':book.id}) }}">Update</a>
+                <a href="{{ path('show_book',{'id':book.id}) }}">Show</a></td>
             </tr>
         {% else %}
                 <tr>
